@@ -1,5 +1,3 @@
-# LIBRARIES
-
 from typing import Tuple, List, Optional
 import base64
 from tenacity import (

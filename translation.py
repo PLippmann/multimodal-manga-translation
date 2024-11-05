@@ -11,9 +11,10 @@ import time
 import json
 load_dotenv(find_dotenv())
 
+
 class Translator(ABC):
 
-    def __init__(self, text_extractor: TextExtractor, api_key: str, gpt_model = "gpt-4-turbo"):
+    def __init__(self, text_extractor: TextExtractor, api_key: str, gpt_model = "gpt-4-turbo-2024-04-09"):
         self.extractor = text_extractor
         self.api_handler = API_handler(api_key, gpt_model)
 
@@ -32,7 +33,6 @@ class Translator(ABC):
         translated_pages = [self.translate_page(page_path) for page_path in page_paths]
 
         return translated_pages
-    
 
 class BasicGPT4Translator(Translator):
 
@@ -70,7 +70,7 @@ class BasicGPT4Translator(Translator):
         translated_lines = re.findall(r'\[(.*?)\]', text)
 
         return translated_lines
-    
+
 class NoImageLineByLineGPT4Translator(Translator):
     def __init__(self, text_extractor: TextExtractor, api_key: str, lang: str = "English", lang_example: str = "Example, Line: ありがとう Return: [Thank you]"):
         self.lang = lang
@@ -114,7 +114,7 @@ class NoImageLineByLineGPT4Translator(Translator):
                     found = True
 
         return translated_lines
-    
+
 class ImageLineByLineGPT4Translator(Translator):
     def __init__(self, text_extractor: TextExtractor, api_key: str, lang: str = "English", lang_example: str = "Example 1: Line 1: ありがとうございました Return: Translation 1: [Thank you so much!](As seen on the page, the character is happily thanking somebody)."):
         self.lang = lang
@@ -160,7 +160,7 @@ class ImageLineByLineGPT4Translator(Translator):
                     found = True
 
         return translated_lines
-    
+
 class NoImageLineByLineGPT4TranslatorPolish(Translator):
 
     def extract_lines(self, img_path: str) -> List[str]:
@@ -198,7 +198,7 @@ class NoImageLineByLineGPT4TranslatorPolish(Translator):
                     found = True
 
         return translated_lines
-    
+
 class CustomQueryGPT4Translator(Translator):
     def __init__(self, system_msg: str, query_txt: str, retry_limit: int, text_extractor: TextExtractor, api_key: str, temperature: Optional[float] = None, skip_image: bool = False):
         self.sys_msg = system_msg
@@ -247,7 +247,7 @@ class CustomQueryGPT4Translator(Translator):
         logging.getLogger("Experiment").info(f"Translation took {total_time} seconds, which is {total_time/max(1, self.retry_limit-tries):.1f} seconds per try.")
 
         return translated_lines
-    
+
 class CustomQueryLineFormatGPT4Translator(Translator):
     def __init__(self, system_msg: str, query_txt: str, line_passing_format: str, retry_limit: int, text_extractor: TextExtractor, api_key: str, temperature: Optional[float] = None, skip_image: bool = False):
         self.sys_msg = system_msg
@@ -303,8 +303,7 @@ class CustomQueryLineFormatGPT4Translator(Translator):
         logging.getLogger("Experiment").info(f"Took {self.retry_limit-tries} tries. Desired number of lines {'' if len(translated_lines) == len(lines) else 'NOT '}achieved.") 
         logging.getLogger("Experiment").info(f"Translation took {total_time} seconds, which is {total_time/max(1, self.retry_limit-tries):.1f} seconds per try.")
 
-        return translated_lines
-    
+        return translated_lines    
 
 class LongFormContextTranslator(Translator):
     def __init__(self, system_msg: str, query_txt: str, retry_limit: int, text_extractor: TextExtractor, context_handler: LongFormCompression, api_key: str, temperature: Optional[float] = None, skip_image: bool = False):
@@ -379,7 +378,6 @@ class LongFormContextTranslator(Translator):
 
         return translated_pages
 
-
 class StoryTellingTranslator(Translator):
     def __init__(self, system_msg_story: str, system_msg_translator: str, query_template_story: str, query_template_translator: str, retry_limit: int, text_extractor: TextExtractor, api_key: str, temperature: Optional[float] = None, skip_image: bool = True):
 
@@ -391,13 +389,11 @@ class StoryTellingTranslator(Translator):
         self.temperature = temperature
         self.skip_image = skip_image
 
-
         logging.getLogger("Experiment").info(f'----------------------------------------------------------------')
         logging.getLogger("Experiment").info(f"StoryTellingTranslator initialized with: \nSystem message (story): \n{system_msg_story} \nQuery_txt (story): \n{query_template_story}\nSystem message (translator): \n{system_msg_translator} \nQuery_txt (translator): \n{query_template_translator} \nRetry limit: {retry_limit} \nTemperature: {temperature} \nSkip image: {skip_image}")
         logging.getLogger("Experiment").info(f'----------------------------------------------------------------')
 
         super().__init__(text_extractor = text_extractor, api_key = api_key)
-
 
     def __convert_page_to_story(self, lines: List[str], img_paths: List[str]):
         logging.getLogger("Experiment").info("SENDING API REQUEST (STORY)")
@@ -502,13 +498,11 @@ class RunningContextStoryTellingTranslator(Translator):
         self.default_context = "This is the first page. There is no previous context."
         self.context_so_far = self.default_context
 
-
         logging.getLogger("Experiment").info(f'----------------------------------------------------------------')
         logging.getLogger("Experiment").info(f"RunningContextStoryTellingTranslator initialized with: \nSystem message (story): \n{system_msg_story} \nQuery_txt (story): \n{query_template_story}\nSystem message (translator): \n{system_msg_translator} \nQuery_txt (translator): \n{query_template_translator} \nRetry limit: {retry_limit} \nTemperature: {temperature} \nSkip image: {skip_image}")
         logging.getLogger("Experiment").info(f'----------------------------------------------------------------')
 
         super().__init__(text_extractor = text_extractor, api_key = api_key)
-
 
     def __convert_page_to_story(self, lines: List[str], img_paths: List[str], page_index: int):
         logging.getLogger("Experiment").info("SENDING API REQUEST (STORY)")
@@ -631,7 +625,6 @@ class RunningContextStoryTellingTranslator(Translator):
 
         return translated_pages
 
-
 class ThreePageContextTranslator(Translator):
     def __init__(self, system_msg: str, query_txt: str, line_passing_format: str, retry_limit: int, text_extractor: TextExtractor, api_key: str, temperature: Optional[float] = None, skip_image: bool = False):
         self.sys_msg = system_msg
@@ -683,7 +676,6 @@ class ThreePageContextTranslator(Translator):
             img_paths.append(page_path)
             lines_per_page.append(concat_lines)
 
-
             if i < len(page_paths) - 1:
                 next_page_path = page_paths[i+1]
                 img_paths.append(next_page_path)
@@ -695,7 +687,6 @@ class ThreePageContextTranslator(Translator):
                     concat_lines += formatted_line + "\n"
 
                 lines_per_page.append(concat_lines)
-
 
             all_lines = ""
             for page_no, page_lines in enumerate(lines_per_page):
@@ -843,11 +834,9 @@ class SelfRankingGPT4TranslatorJSON(Translator):
             response = self.api_handler.query_local_parse(system_message = system_message, query_text = full_query, temperature = self.temperature, image_paths = img_paths, json_response = True)
             logging.getLogger("Experiment").debug(f"API RESPONSE: \n{response}")
             
-
             ranking_response = self.api_handler.query_local_parse(system_message=self.ranking_q, query_text=response, temperature = 0.5, image_paths = img_paths, json_response = True)
 
             logging.getLogger("Experiment").debug(f"RERANKING RESPONSE: \n{ranking_response}")
-
 
             try:
                 pprocess = json.loads(ranking_response)
@@ -938,7 +927,6 @@ class LongFormContextTranslatorJSON(Translator):
         self.query_txt = query_txt
         self.line_format = line_passing_format
 
-
         # The following will probably stay relevant
         self.retry_limit = retry_limit
         self.temperature = temperature
@@ -980,8 +968,6 @@ class LongFormContextTranslatorJSON(Translator):
                 formatted_line = self.line_format.format((line_no+1), line)
                 concat_lines += formatted_line + "\n"
 
-           
-
             # Incorporating previous context and lines to translate into the query
             if i==0:
                 if self.lang == 'en':
@@ -1007,8 +993,6 @@ class LongFormContextTranslatorJSON(Translator):
                     logging.getLogger("Experiment").debug(f"API RESPONSE: \n{response}")
                     
                     pprocess = json.loads(response)
-
-                    
 
                     try:
                         key = pprocess.keys()[-1]
@@ -1104,7 +1088,6 @@ class ThreePageContextTranslatorJSON(Translator):
 
                 lines_per_page.append(concat_lines)
 
-
             all_lines = ""
             for page_no, page_lines in enumerate(lines_per_page):
                 all_lines += f"Page {page_no+1}: \n"
@@ -1149,7 +1132,7 @@ class ThreePageContextTranslatorJSON(Translator):
             translated_pages.append(translated_lines)
 
         return translated_pages
-    
+
 class WholeVolumeTranslatorJSON(Translator):
     def __init__(self, system_msg: str, query_txt: str, line_passing_format: str, retry_limit: int, text_extractor: TextExtractor, api_key: str, temperature: Optional[float] = None, skip_image: bool = False):
         self.sys_msg = system_msg
@@ -1235,7 +1218,6 @@ class WholeVolumeTranslatorJSON(Translator):
 
         logging.getLogger("Experiment").info(f"Took {self.retry_limit-tries} tries. Desired number of lines {'' if len(translated_lines) == len(lines) else 'NOT '}achieved.") 
         logging.getLogger("Experiment").info(f"Translation took {total_time} seconds, which is {total_time/max(1, self.retry_limit-tries):.1f} seconds per try.")
-        
 
         return translated_pages
     
@@ -1295,7 +1277,6 @@ class VolumeByPageAllContextTranslator(Translator):
 
             full_query = self.query_txt.format(all_lines, page_no, all_translations_so_far, page_no+1)
             # logging.getLogger("Experiment").debug(f"API QUERY: \n{full_query}")
-
 
             tries = self.retry_limit
             translated_lines = []
@@ -1428,7 +1409,6 @@ class SceneAwareNMTResultsLoadingTranslator(Translator):
         logging.getLogger("Experiment").info(f"TRANSLATED LINES: {translated_lines}")
 
         return translated_lines
-
 
 PROMPT_LIBRARY = {
     'describe': """Describe the images I give you. \n{} \n Answer in JSON""",

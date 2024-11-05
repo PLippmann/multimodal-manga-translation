@@ -1,11 +1,11 @@
 # Multimodal Manga Translation
-Repo for paper "Context-Informed Machine Translation of Manga using Multimodal Large Language Models"
+
+[**Context-Informed Machine Translation of Manga using Multimodal Large Language Models**](https://arxiv.org/abs/XXXX.XXXXX)
 
 Philip Lippmann, Konrad Skublicki, Joshua Tanner, Shonosuke Ishiwatari, Jie Yang
 
 ![manga image](assets/modality_comparison_short.png)
 &copy; Kira Ito
-
 
 ## Setup
 1. After cloning this repository, clone the following repositories in the same directory as well:
@@ -25,17 +25,17 @@ wget -O model.pkl https://github.com/juvian/Manga-Text-Segmentation/releases/dow
 
 4. Install the required packages:
 ```bash
-pip install -r requirements.txt
+pip install -r ./requirements/requirements.txt
 
 # Make sure CUDA is already installed in your workspace. Use the appropriate PyTorch version.
 pip install torch==2.1.1 torchvision==0.16.1 torchaudio==2.1.1 --index-url https://download.pytorch.org/whl/cu118
 
 # Only needed if performing evaluation. Tested with Python 3.8.10.
-pip install -r requirements_eval.txt
+pip install -r ./requirements/requirements_eval.txt
 ```
 
 5. If performing evaluation using BLEURT:
-Install according to the instructions on the [BLEURT repository](https://github.com/google-research/bleurt) and then use as described in their repository.
+Install according to the instructions on the [BLEURT repository](https://github.com/google-research/bleurt) and then use as described ```./scores_and_stats/```.
 
 6. Your directory should now look like this:
 ```
@@ -62,8 +62,15 @@ To run the full pipeline, execute all cells of the following notebook:
 ```bash
 jupyter notebook full_pipeline_evaluation.ipynb
 ```
+Here, you can choose xx.
+
+To change the model you wish to use, modify ```gpt_model``` translation.py xxx.
 
 ## Contact
-This repository was created by Konrad Skublicki & Philip Lippmann. 
+This repository was created by Konrad Skublicki & Philip Lippmann. For questions, please contact [Philip](mailto:p.lippmann@tudelft.nl).
 
-All correspondence: p.lippmann@tudelft.nl
+## Citation
+If you use this repository in your research, please cite the following paper:
+```
+xx
+```

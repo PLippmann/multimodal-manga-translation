@@ -20,12 +20,9 @@ class TextExtractor(ABC):
     def extract_lines(self, path_to_img: str) -> List[str]:
         pass 
 
-
 class TextExtractorPixelwise(TextExtractor):
 
     MIN_TEXT_SIZE = 15
-
-    # TODO add possibility to visualize
 
     def __init__(self, path_to_model: str):
         file = path_to_model.split('/')[-1]
@@ -46,7 +43,6 @@ class TextExtractorPixelwise(TextExtractor):
         # Get pixelwise character position prediction
         pred = self.text_segmentation_model.predict(img)[0]
         mask = unpad_tensor(pred.px, img.px.shape)[0]
-
 
         # Cluster text from the same speech bubbles
         sample = mask.nonzero().tolist()
@@ -76,7 +72,6 @@ class TextExtractorPixelwise(TextExtractor):
         sorted_text_indices = self.magi.sort_panels_and_text_bboxes_in_reading_order([panel_boxes], [text_boxes])[1][0]
         text_boxes_sorted = [text_boxes[i] for i in sorted_text_indices]
 
-
         # Extract the text from each of the bounding boxes
         img_pil = Img.open(path_to_img)
         result = []
@@ -93,8 +88,6 @@ class TextExtractorPixelwise(TextExtractor):
 
         return result
 
-
-
     @classmethod
     def bounding_box(cls, points):
         y_coordinates, x_coordinates = zip(*points)
@@ -107,7 +100,6 @@ class TextExtractorPixelwise(TextExtractor):
             image = Img.open(file).convert("L").convert("RGB")
             image = np.array(image)
         return image
-    
 
 class OpenMantraAnnotationMatcher(TextExtractor):
     book_titles = {
@@ -136,7 +128,6 @@ class OpenMantraAnnotationMatcher(TextExtractor):
 
         return jp_lines
     
-
 class LoveHinaAnnotationMatcher(TextExtractor):
 
     def __init__(self, annotation_file_path: str):

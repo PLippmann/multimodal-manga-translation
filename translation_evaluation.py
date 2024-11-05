@@ -1,21 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-
-from sacrebleu.metrics import BLEU, CHRF, TER
-
-# METEOR
-from nltk.translate import meteor
+from sacrebleu.metrics import BLEU, CHRF, TER # BLEU CHRF TER
+from nltk.translate import meteor # METEOR
 import nltk
-
-# COMET
-from comet import download_model, load_from_checkpoint
-
-# BERTScore
+from comet import download_model, load_from_checkpoint # COMET
 import logging
 import transformers
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
-from bert_score import score as bert_score
+from bert_score import score as bert_score # BERTScore
 
 
 ROUNDING_PRECISION = 3
@@ -82,7 +75,6 @@ class MeteorEvaluator(TranslationEvaluator):
 
         return round(meteor_score, ROUNDING_PRECISION)
     
-
 class CometEvaluator(TranslationEvaluator):
 
     def __init__(self):
@@ -163,7 +155,7 @@ class XXLCometEvaluator(TranslationEvaluator):
         logging.getLogger("Experiment").info(f'XCOMET-XXL SCORES: {model_output.scores}')
 
         return round(model_output.system_score, ROUNDING_PRECISION)
-    
+
 class BertScoreEvaluator(TranslationEvaluator):
 
     def __init__(self, lang: str = 'en', verbose: bool = True):

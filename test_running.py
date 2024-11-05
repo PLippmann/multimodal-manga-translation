@@ -159,7 +159,7 @@ class OpenMantraLoaderModifiedImage(OpenMantraLoader):
             prev_manga_index = manga_index
 
         return volume_page_path_list
-    
+
 class LoveHinaLoader(DatasetLoader):
 
     lang_mapping = {
@@ -210,9 +210,6 @@ class LoveHinaLoader(DatasetLoader):
     # Assumes that pages from the same volume are next to each other on the list
     def get_lines_per_page_per_volume(self, use_validaion_set: bool, lang: str) -> List[List[List[str]]]:
         return [self.get_lines_per_page(use_validaion_set, lang)]
-
-
-    
 
 class TestRunner():
 
