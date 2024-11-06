@@ -1,6 +1,6 @@
 # Multimodal Manga Translation
 
-[**Context-Informed Machine Translation of Manga using Multimodal Large Language Models**](https://arxiv.org/abs/XXXX.XXXXX)
+[**Context-Informed Machine Translation of Manga using Multimodal Large Language Models**](https://arxiv.org/abs/2411.02589)
 
 Philip Lippmann, Konrad Skublicki, Joshua Tanner, Shonosuke Ishiwatari, Jie Yang
 
@@ -62,9 +62,9 @@ To run the full pipeline, execute all cells of the following notebook:
 ```bash
 jupyter notebook full_pipeline_evaluation.ipynb
 ```
-Here, you can choose xx.
+Here, you can choose from a range of (multimodal) translation approaches used in the paper or implement your own. You can run on different data sets and try different language pairs, i.e. JA-EN or JA-PL translation.
 
-To change the model you wish to use, modify ```gpt_model``` translation.py xxx.
+If you wish to change the LLM you use, modify the ```gpt_model``` init varaiable in ```translation.py```.
 
 ## Contact
 This repository was created by Konrad Skublicki & Philip Lippmann. For questions, please contact [Philip](mailto:p.lippmann@tudelft.nl).
@@ -72,5 +72,13 @@ This repository was created by Konrad Skublicki & Philip Lippmann. For questions
 ## Citation
 If you use this repository in your research, please cite the following paper:
 ```
-xx
+@misc{lippmann2024contextinformedmachinetranslationmanga,
+      title={Context-Informed Machine Translation of Manga using Multimodal Large Language Models}, 
+      author={Philip Lippmann and Konrad Skublicki and Joshua Tanner and Shonosuke Ishiwatari and Jie Yang},
+      year={2024},
+      eprint={2411.02589},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2411.02589}, 
+}
 ```

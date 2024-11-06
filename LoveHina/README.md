@@ -10,12 +10,8 @@ These should then be placed in this directory under the following paths:
 ## JA-PL Translation Annotations
 The annotations that we contribute for the new JA-PL translation data set are contained in this directory. These are distributed as .json files.
 
-The original Japanese annotations are distributed as .xml files. We convert these to .json using ```xml_operations.ipynb```.
+```LoveHina_volX_fixed_order.json``` files contain the original Japanese anotations for the respective volumes of the manga, as well as the Polish annotations we provide. 
 
-The resulting ```LoveHina_volX.json``` files contain the original Japanese anotations for the respective volumes of the manga, as well as the Polish annotations we provide. 
+The original Japanese annotations are distributed as .xml files. You can convert these to .json using ```xml_operations.ipynb```.
 
-```LoveHina_volX_fixed_order.json``` files, following the reading order panel by panel. 
-
-You can also generate these yourself should you wish, using the provided ```love_hina_modif.ipynb``` notebook, which contains the code for the conversion. 
-
-If you need the annotations to be split by page instead, use ```love_hina_modif_split_page.ipynb```.
+If you need the annotations to be split by page instead, you can use ```love_hina_modif_split_page.ipynb``` to achieve this.
