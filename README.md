@@ -2,7 +2,9 @@
 
 [**Context-Informed Machine Translation of Manga using Multimodal Large Language Models**](https://arxiv.org/abs/2411.02589)
 
-Philip Lippmann, Konrad Skublicki, Joshua Tanner, Shonosuke Ishiwatari, Jie Yang
+*Philip Lippmann, Konrad Skublicki, Joshua Tanner, Shonosuke Ishiwatari, Jie Yang*
+
+To appear at [COLING 2025](https://coling2025.org/).
 
 ![manga image](assets/modality_comparison_short.png)
 &copy; Kira Ito
